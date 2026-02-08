@@ -1,6 +1,6 @@
 package ua.opnu.cities.engine;
 
-import lombok.Getter; // Не забудь імпорт!
+import lombok.Getter;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -9,10 +9,10 @@ public class GameEngine {
     private final Set<String> usedCities;
     private char lastLetter;
 
-    @Getter // Тепер метод getPlayerScore створюється автоматично
+    @Getter
     private int playerScore = 0;
 
-    @Getter // Тепер метод getComputerScore створюється автоматично
+    @Getter
     private int computerScore = 0;
 
     public GameEngine() {
@@ -49,13 +49,11 @@ public class GameEngine {
         String lower = city.toLowerCase();
         int idx = lower.length() - 1;
         char last = lower.charAt(idx);
-        // Додано 'ц' згідно з правилами української мови у грі [cite: 29]
         if (last == 'ь' || last == 'и' || last == 'й' || last == 'ц') {
             last = lower.charAt(idx - 1);
         }
         return last;
     }
 
-    // Залишаємо цей метод, але тепер використаємо його в GUI!
     public char getCurrentLetter() { return lastLetter; }
 }

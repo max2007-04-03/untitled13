@@ -5,9 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GameWindow extends JFrame {
-    // Додаємо transient, щоб IDEA не сварилася на серіалізацію
     private final transient GameEngine engine;
-    // Робимо поля final, бо вони ініціалізуються один раз
     private final JTextField inputField;
     private final JTextArea gameLog;
     private final JLabel infoLabel;
@@ -15,13 +13,11 @@ public class GameWindow extends JFrame {
     public GameWindow(String playerName) {
         this.engine = new GameEngine();
         setTitle("Гра Міста: " + playerName);
-        setSize(400, 500); // [cite: 39]
-        // Використовуємо статичний доступ через WindowConstants
+        setSize(400, 500);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null); // [cite: 41]
+        setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
-        // Ініціалізуємо infoLabel, щоб прибрати warning
         infoLabel = new JLabel("Ваш хід! Введіть назву міста:");
         add(infoLabel, BorderLayout.NORTH);
 
@@ -37,7 +33,6 @@ public class GameWindow extends JFrame {
         panel.add(btn, BorderLayout.EAST);
         add(panel, BorderLayout.SOUTH);
 
-        // Тепер використовуємо параметр e (хоча б формально) або ігноруємо
         btn.addActionListener(_ -> processMove());
         inputField.addActionListener(_ -> processMove());
     }
@@ -45,7 +40,7 @@ public class GameWindow extends JFrame {
     private void processMove() {
         String city = inputField.getText().trim();
 
-        if (city.equalsIgnoreCase("здаюсь")) { // [cite: 34]
+        if (city.equalsIgnoreCase("здаюсь")) {
             showEndGame("Ви здалися!");
             return;
         }
@@ -56,11 +51,10 @@ public class GameWindow extends JFrame {
             String compCity = engine.getComputerResponse();
             if (compCity != null) {
                 gameLog.append("Комп'ютер: " + compCity + "\n");
-                // Використовуємо getCurrentLetter() і оновлюємо infoLabel [cite: 18, 31]
                 infoLabel.setText("Потрібне місто на літеру: "
                         + Character.toUpperCase(engine.getCurrentLetter()));
             } else {
-                showEndGame("Ви перемогли! У комп'ютера закінчилися слова."); // [cite: 33]
+                showEndGame("Ви перемогли! У комп'ютера закінчилися слова.");
             }
         } else {
             JOptionPane.showMessageDialog(this, res);
@@ -69,7 +63,6 @@ public class GameWindow extends JFrame {
     }
 
     private void showEndGame(String msg) {
-        // [cite: 35]
         String stats = msg + "\nРахунок: Ви " + engine.getPlayerScore()
                 + " - " + engine.getComputerScore() + " Комп'ютер";
         JOptionPane.showMessageDialog(this, stats);

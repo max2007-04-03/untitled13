@@ -5,9 +5,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class CityDatabase {
     private final Set<String> cities;
+
+    private static final Logger LOG = Logger.getLogger(CityDatabase.class.getName());
 
     public CityDatabase() {
         this.cities = new HashSet<>();
@@ -24,8 +28,7 @@ public class CityDatabase {
                 }
             }
         } catch (IOException e) {
-            System.err.println("Помилка при читанні файлу: " + e.getMessage());
-            cities.add("Київ");
+            LOG.log(Level.SEVERE, "Помилка при читанні файлу cities.txt. Буде використано запасний список міст.", e);            cities.add("Київ");
             cities.add("Одеса");
         }
     }

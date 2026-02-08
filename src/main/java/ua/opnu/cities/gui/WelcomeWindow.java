@@ -2,6 +2,7 @@ package ua.opnu.cities.gui;
 
 import javax.swing.*;
 import java.awt.*;
+import javax.swing.WindowConstants;
 
 public class WelcomeWindow extends JFrame {
     private final JTextField nameField;
@@ -9,8 +10,8 @@ public class WelcomeWindow extends JFrame {
     public WelcomeWindow() {
         setTitle("Welcome to Cities Game");
         setSize(400, 100);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null); // Окно по центру экрана
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
         setLayout(new FlowLayout());
 
         add(new JLabel("Введіть ваше ім'я:"));
@@ -25,7 +26,7 @@ public class WelcomeWindow extends JFrame {
             String playerName = nameField.getText().trim();
             if (!playerName.isEmpty()) {
                 this.dispose();
-                new GameWindow(playerName).setVisible(true); // Відкриваємо гру
+                new GameWindow(playerName).setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(this, "Будь ласка, введіть ім'я!");
             }
