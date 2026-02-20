@@ -22,7 +22,7 @@ public class WelcomeWindow extends JFrame {
         JButton submitButton = new JButton("Прийняти");
         add(submitButton);
 
-        submitButton.addActionListener(_ -> {
+        submitButton.addActionListener(e -> {
             String playerName = nameField.getText().trim();
             if (!playerName.isEmpty()) {
                 this.dispose();

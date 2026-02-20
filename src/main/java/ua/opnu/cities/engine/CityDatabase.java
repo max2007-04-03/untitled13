@@ -1,16 +1,16 @@
 package ua.opnu.cities.engine;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class CityDatabase {
     private final Set<String> cities;
-
     private static final Logger LOG = Logger.getLogger(CityDatabase.class.getName());
 
     public CityDatabase() {
@@ -19,33 +19,31 @@ public class CityDatabase {
     }
 
     private void loadCitiesFromFile() {
-        try (BufferedReader br = new BufferedReader(new FileReader("cities.txt"))) {
+        try (InputStream is = getClass().getClassLoader().getResourceAsStream("cities.txt");
+             BufferedReader br = new BufferedReader(new InputStreamReader(Objects.requireNonNull(is)))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String city = line.trim();
                 if (!city.isEmpty()) {
-                    cities.add(city);
+                    cities.add(city.toLowerCase());
                 }
             }
-        } catch (IOException e) {
-            LOG.log(Level.SEVERE, "Помилка при читанні файлу cities.txt. Буде використано запасний список міст.", e);            cities.add("Київ");
-            cities.add("Одеса");
+        } catch (Exception e) {
+            LOG.log(Level.SEVERE, "Помилка при читанні файлу cities.txt.", e);
+            cities.add("київ");
+            cities.add("одеса");
         }
     }
 
     public boolean contains(String city) {
-        return cities.stream().anyMatch(c -> c.equalsIgnoreCase(city));
+        return cities.contains(city.toLowerCase());
     }
 
     public String findCityByLetter(char letter, Set<String> usedCities) {
         char searchLetter = Character.toLowerCase(letter);
         for (String city : cities) {
-            if (Character.toLowerCase(city.charAt(0)) == searchLetter) {
-                boolean alreadyUsed = usedCities.stream()
-                        .anyMatch(used -> used.equalsIgnoreCase(city));
-                if (!alreadyUsed) {
-                    return city;
-                }
+            if (city.charAt(0) == searchLetter && !usedCities.contains(city)) {
+                return city.substring(0, 1).toUpperCase() + city.substring(1);
             }
         }
         return null;

@@ -22,13 +22,18 @@ public class GameEngine {
     }
 
     public String validateAndProcess(String cityName) {
-        if (!database.contains(cityName)) return "Такого міста не існує в базі!";
-        if (usedCities.contains(cityName)) return "Це місто вже було використане!";
+        String lowerCity = cityName.toLowerCase();
+        if (!database.contains(lowerCity)) {
+            return "Такого міста не існує в базі!";
+        }
+        if (usedCities.contains(lowerCity)) {
+            return "Це місто вже було використане!";
+        }
         if (lastLetter != '\0' && Character.toLowerCase(cityName.charAt(0)) != lastLetter) {
             return "Місто має починатися на літеру: " + Character.toUpperCase(lastLetter);
-        }
 
-        usedCities.add(cityName);
+        }
+        usedCities.add(lowerCity);
         playerScore++;
         lastLetter = determineNextLetter(cityName);
         return "OK";
@@ -37,7 +42,7 @@ public class GameEngine {
     public String getComputerResponse() {
         String computerCity = database.findCityByLetter(lastLetter, usedCities);
         if (computerCity != null) {
-            usedCities.add(computerCity);
+            usedCities.add(computerCity.toLowerCase());
             computerScore++;
             lastLetter = determineNextLetter(computerCity);
             return computerCity;
@@ -55,5 +60,7 @@ public class GameEngine {
         return last;
     }
 
-    public char getCurrentLetter() { return lastLetter; }
+    public char getCurrentLetter() {
+        return lastLetter;
+    }
 }

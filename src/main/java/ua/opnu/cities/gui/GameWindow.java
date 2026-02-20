@@ -33,8 +33,8 @@ public class GameWindow extends JFrame {
         panel.add(btn, BorderLayout.EAST);
         add(panel, BorderLayout.SOUTH);
 
-        btn.addActionListener(_ -> processMove());
-        inputField.addActionListener(_ -> processMove());
+        btn.addActionListener(e -> processMove());
+        inputField.addActionListener(e -> processMove());
     }
 
     private void processMove() {
